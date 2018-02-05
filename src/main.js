@@ -1,10 +1,7 @@
 import Vue from 'vue';
+import App from './App.vue';
 
 new Vue({
-	data: function () {
-		return {
-			message: 'Webpack and Vue setup 2'
-		}
-	},
-	el: '#vue-app'
+    el: '#vue-app',
+    render: h => h(App)
 });
