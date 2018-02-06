@@ -1,34 +1,52 @@
 <template>
-  <div class="inline-pie">
-        <svg viewBox="-1 -1 2 2" style="transform: rotate(-0.25turn)" ref="svg"> </svg>
+  <div>
+        <svg
+            class="inline-pie"
+            viewBox="-1 -1 2 2" 
+            :style="'transform: rotate(' + rotate + ')'" 
+            ref="svg"
+            :width="width" 
+            :height="height"> </svg>
   </div>
 </template>
 
 <script>
     export default {
+        props: {
+            slices: { type: Array, default: () => [
+                { name: 'Pie-to-eat', value: 90, color: '#e06557' },
+                { name: 'Pie-eaten', value: 10, color: '#f3f3f3' },
+            ]},
+            width: { type: String, default: '100%' },
+            height: { type: String, default: '100%' },
+            rotate: { type: String, default: '-90deg'}
+        },
+        computed: {
+            total() {
+                let total = .0;
+                this.slices.forEach(slice => total += slice.value);
+                return total;
+            }
+        },
         mounted() {
-
-            const slices = [
-                { percent: 0.1, color: 'Coral' },
-                { percent: 0.65, color: 'CornflowerBlue' },
-                { percent: 0.2, color: '#00ab6b' },
-            ];
+            let total = this.total;
 
             let cumulativePercent = 0;
             var self = this;
-            slices.forEach(slice => {
-                // destructuring assignment sets the two variables at once
+            this.slices.forEach(slice => {
+                let percent = slice.value / total;
+
                 const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
                 
                 // each slice starts where the last slice ended, so keep a cumulative percent
-                cumulativePercent += slice.percent;
+                cumulativePercent += percent;
                 
                 const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
 
                 // if the slice is more than 50%, take the large arc (the long way around)
-                const largeArcFlag = slice.percent > .5 ? 1 : 0;
+                const largeArcFlag = percent > .5 ? 1 : 0;
 
-                    // create an array and join it just for code readability
+                // create an array and join it just for code readability
                 const pathData = [
                     `M ${startX} ${startY}`, // Move
                     `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`, // Arc
@@ -39,11 +57,11 @@
                 const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 pathEl.setAttribute('d', pathData);
                 pathEl.setAttribute('fill', slice.color);
+                pathEl.setAttribute('class', 'pie-slice');
                 self.$refs.svg.appendChild(pathEl);
             });
         }
     }
-
 
     function getCoordinatesForPercent(percent) {
         const x = Math.cos(2 * Math.PI * percent);
@@ -53,6 +71,28 @@
 
 </script>
 
-<style>
+<style lang="scss">
+
+    $animation-duration: .1s;
+    $animation-time: ease-in-out;
+
+    .inline-pie {
+        .pie-slice {
+            cursor: pointer;
+            transform: scale(.95, .95);
+
+            &:hover {
+                transform: scale(1, 1);
+                opacity: 1;
+                box-shadow: 3px 3px;
+            }
+
+        }
+
+        &:hover > * {
+            opacity: 0.7;
+             transition: opacity $animation-duration $animation-time, transform $animation-duration $animation-time;
+        }
+    }
 
 </style>
