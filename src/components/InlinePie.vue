@@ -5,8 +5,15 @@
             viewBox="-1 -1 2 2" 
             :style="'transform: rotate(' + rotate + ')'" 
             ref="svg"
-            :width="width" 
-            :height="height"> </svg>
+            :width="width"
+            :height="height"> 
+
+            <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip"></path>
+
+            <text class="tooltip" ref="tooltip" :x="tooltipX" :y="tooltipY" :visibility="showTooltip" 
+              :style="'font-size: 0.1px; transform: rotate(' + (-parseInt(rotate)) + 'deg)'">{{ tooltipText }}</text>
+
+        </svg>
   </div>
 </template>
 
@@ -28,7 +35,32 @@
                 return total;
             }
         },
-        mounted() {
+        data() {
+            return {
+                showTooltip: 'hidden',
+                tooltipX: 0,
+                tooltipY: 0,
+                tooltipText: ''
+            }
+        },
+        methods: {
+            trackTooltip(event, slice) {
+
+                var pt = this.$refs.svg.createSVGPoint();
+                pt.x = event.clientX;
+                pt.y = event.clientY;
+                var svgP = pt.matrixTransform(this.$refs.svg.getScreenCTM().inverse());
+
+                this.showTooltip = 'visible';
+                this.tooltipX = svgP.y + 0.1;
+                this.tooltipY = -svgP.x + 0.1;
+                this.tooltipText = slice.value;
+            },
+            hideTooltip() {
+                this.showTooltip = 'hidden';
+            }
+        },
+        beforeMount() {
             let total = this.total;
 
             let cumulativePercent = 0;
@@ -52,13 +84,10 @@
                     `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`, // Arc
                     `L 0 0`, // Line
                 ].join(' ');
-
-                // create a <path> and append it to the <svg> element
-                const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                pathEl.setAttribute('d', pathData);
-                pathEl.setAttribute('fill', slice.color);
-                pathEl.setAttribute('class', 'pie-slice');
-                self.$refs.svg.appendChild(pathEl);
+                
+                slice.path = pathData;
+                slice.percentage = percent;
+            
             });
         }
     }
@@ -77,6 +106,9 @@
     $animation-time: ease-in-out;
 
     .inline-pie {
+
+        overflow: initial;
+
         .pie-slice {
             cursor: pointer;
             transform: scale(.95, .95);

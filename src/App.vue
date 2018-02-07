@@ -4,8 +4,8 @@
 
         <inline-pie
             :slices="pieSlices"
-            :width="'50'"
-            :height="'50'"></inline-pie>
+            :width="'200'"
+            :height="'200'"></inline-pie>
     </div>
 </template>
 
