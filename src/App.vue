@@ -2,16 +2,16 @@
     <div class="container">
         <h1>Vue Inline Charts</h1>
 
-        <inline-pie
+        <inline-pie-chart
             :slices="pieSlices"
-            :width="'200'"
-            :height="'200'"></inline-pie>
+            :diameter="'200'">
+            </inline-pie-chart>
     </div>
 </template>
 
 <script>
     
-    import InlinePie from './components/InlinePie.vue';
+    import InlinePieChart from './components/InlinePieChart.vue';
 
     export default {
         data() {
@@ -25,7 +25,7 @@
             }
         },
         components: {
-            InlinePie
+            InlinePieChart
         }
     }
 
