@@ -43,7 +43,7 @@
                 return this.desiredFontSize / this.diameter;
             },
             textY() {
-                return this.desiredFontSize / this.diameter / 2 + this.pixelToSvg(5);
+                return this.desiredFontSize / this.diameter / 2 + this.pixelToSvg(12);
             }
         },
         data() {
@@ -52,7 +52,7 @@
                 tooltipX: 0,
                 tooltipY: 0,
                 tooltipText: '',
-                desiredFontSize: 16,
+                desiredFontSize: 28,
                 tooltipWidth: 0,
                 tooltipHeight: 0
             }
@@ -72,7 +72,7 @@
 
                 this.showTooltip = 'visible';
                 this.tooltipX = -svgP.x - this.pixelToSvg(15);
-                this.tooltipY = svgP.y - this.pixelToSvg(10);
+                this.tooltipY = svgP.y - this.pixelToSvg(20);
                 this.tooltipText = slice.value;
             },
             hideTooltip() {
@@ -156,12 +156,11 @@
 
             rect {
                 fill: rgba(255, 255, 255, 0.8);
-                stroke-width: 0.01;
-                stroke: rgb(0,0,0)
             }
 
             text {
                 fill: black;
+                font-family: sans-serif;
             }
         }
     }
