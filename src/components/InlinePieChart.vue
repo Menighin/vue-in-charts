@@ -11,9 +11,11 @@
                 <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip"></path>
             </g>
 
-            <svg :x="-tooltipX" :y="tooltipY" class="tooltip" ref="tooltip" :style="`visibility: ${showTooltip}`">
-                <rect :width="tooltipWidth" :height="tooltipHeight"></rect>
-                <text ref="tooltipText" :style="`font-size: ${fontSize}`" :y="textY" :x="pixelToSvg(4)" alignment-baseline="central"> {{ tooltipText }} </text>
+            <svg :x="-tooltipX" :y="tooltipY" class="tooltip" ref="tooltip" > <!-- :style="`visibility: ${showTooltip}`" -->
+                <g>
+                    <rect :width="tooltipWidth" :height="tooltipHeight"></rect>
+                    <text ref="tooltipText" :style="`font-size: ${fontSize}`" :y="textY" :x="pixelToSvg(4)" alignment-baseline="central"> {{ tooltipText }} </text>
+                </g>
             </svg>
 
         </svg>
@@ -43,7 +45,9 @@
                 return this.desiredFontSize / this.diameter;
             },
             textY() {
-                return this.desiredFontSize / this.diameter / 2 + this.pixelToSvg(12);
+                let r = this.desiredFontSize / this.diameter / 2 + this.pixelToSvg(12);
+
+                return this.diameter > 50 ? r : 0;
             }
         },
         data() {
@@ -59,8 +63,13 @@
         },
         watch: {
             tooltipText() {
-                this.tooltipWidth = this.$refs.tooltipText.getBBox().width + this.pixelToSvg(8);
-                this.tooltipHeight = this.$refs.tooltipText.getBBox().height + this.pixelToSvg(2);
+                let self = this;
+
+                // Delay this because it seems to take some time to render the text
+                setTimeout(function() {
+                    self.tooltipWidth = self.$refs.tooltipText.getBBox().width + self.pixelToSvg(8);
+                    self.tooltipHeight = self.$refs.tooltipText.getBBox().height + self.pixelToSvg(2);
+                }, 1);
             }
         },
         methods: {
