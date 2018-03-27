@@ -11,7 +11,7 @@
                 <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip"></path>
             </g>
 
-            <svg :x="-tooltipX" :y="tooltipY" class="tooltip" ref="tooltip" > <!-- :style="`visibility: ${showTooltip}`" -->
+            <svg :x="-tooltipX" :y="tooltipY" class="tooltip" ref="tooltip" :style="`visibility: ${showTooltip}`">
                 <g>
                     <rect :width="tooltipWidth" :height="tooltipHeight"></rect>
                     <text ref="tooltipText" :style="`font-size: ${fontSize}`" :y="textY" :x="pixelToSvg(4)" alignment-baseline="central"> {{ tooltipText }} </text>
@@ -152,6 +152,9 @@
                     box-shadow: 3px 3px;
                 }
 
+                stroke-dasharray: 0 50; /* for 75% */
+                animation: fillup 1s ease-out forwards;
+
             }
 
             &:hover > * {
@@ -172,6 +175,10 @@
                 font-family: sans-serif;
             }
         }
+    }
+
+    @keyframes fillup {
+        from { stroke-dasharray: 0 100; }
     }
 
 </style>
