@@ -1,13 +1,22 @@
 var webpack = require('webpack');
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Naming and path settings
 var appName = 'app';
 var entryPoint = './src/main.js';
-var exportPath = path.resolve(__dirname, './build');
+var exportPath = path.resolve(__dirname, './dist');
 
 // Enviroment flag
-var plugins = [];
+var plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+        hash: true,
+        template: './index.html',      
+        filename: './index.html'
+    })
+];
+    
 var env = process.env.WEBPACK_ENV;
 
 // Differ settings based on production flag
@@ -29,20 +38,17 @@ if (env === 'production') {
 // Main Settings config
 module.exports = {
     entry: entryPoint,
+    mode: 'development',
     output: {
         path: exportPath,
         filename: appName
     },
+    devServer: {
+        // contentBase: './dist',
+        hot: true
+    },
     module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015']
-                }
-            },
+        rules: [
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
@@ -52,11 +58,6 @@ module.exports = {
                 loader: 'style!css!sass'
             }
         ]
-    },
-    resolve: {
-        alias: {
-            'vue$': 'vue/dist/vue.esm.js'
-        }
     },
     plugins
 };
