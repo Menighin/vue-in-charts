@@ -2,49 +2,14 @@ var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-// Naming and path settings
-var appName = 'app';
-var entryPoint = './src/main.js';
-var exportPath = path.resolve(__dirname, './dist');
-
-// Enviroment flag
-var plugins = [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({
-        hash: true,
-        template: './index.html',      
-        filename: './index.html'
-    })
-];
-    
-var env = process.env.WEBPACK_ENV;
-
-// Differ settings based on production flag
-if (env === 'production') {
-    var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-
-    plugins.push(new UglifyJsPlugin({ minimize: true }));
-    plugins.push(new webpack.DefinePlugin({
-        'process.env': {
-            NODE_ENV: '"production"'
-        }
-    }));
-
-    appName = appName + '.min.js';
-} else {
-    appName = appName + '.js';
-}
-
-// Main Settings config
 module.exports = {
-    entry: entryPoint,
-    mode: 'development',
+    entry: './src/main.js',
     output: {
-        path: exportPath,
-        filename: appName
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js',
     },
     devServer: {
-        // contentBase: './dist',
+        contentBase: './dist',
         hot: true
     },
     module: {
@@ -59,5 +24,12 @@ module.exports = {
             }
         ]
     },
-    plugins
+    plugins : [
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            hash: true,
+            template: './index.html',      
+            filename: './index.html'
+        })
+    ]
 };

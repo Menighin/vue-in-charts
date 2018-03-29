@@ -1,5 +1,5 @@
 <template>
-  <div>
+    <div>
         <svg
             class="root"
             viewBox="-1 -1 2 2" 
@@ -8,18 +8,18 @@
             :height="diameter"> 
 
             <g class="inline-pie" :transform="`rotate(${parseInt(rotate)})`">
-                <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip"></path>
+                <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip" />
             </g>
 
             <svg :x="-tooltipX" :y="tooltipY" class="tooltip" ref="tooltip" :style="`visibility: ${showTooltip}`">
                 <g>
-                    <rect :width="tooltipWidth" :height="tooltipHeight"></rect>
+                    <rect :width="tooltipWidth" :height="tooltipHeight" />
                     <text ref="tooltipText" :style="`font-size: ${fontSize}`" :y="textY" :x="pixelToSvg(4)" alignment-baseline="central"> {{ tooltipText }} </text>
                 </g>
             </svg>
 
         </svg>
-  </div>
+    </div>
 </template>
 
 <script>

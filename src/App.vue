@@ -4,8 +4,7 @@
 
         <inline-pie-chart
             :slices="pieSlices"
-            :diameter="'100'">
-            </inline-pie-chart>
+            :diameter="'100'" />
     </div>
 </template>
 
