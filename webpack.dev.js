@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const common = require('./webpack.config.js');
 
@@ -7,5 +9,13 @@ module.exports = merge(common, {
     devServer: {
         contentBase: './dist'
     },
-    mode: 'development'
+    mode: 'development',
+    plugins : [
+        new webpack.HotModuleReplacementPlugin(),
+        new HtmlWebpackPlugin({
+            hash: true,
+            template: './index.html',      
+            filename: './index.html'
+        })
+    ]
 });

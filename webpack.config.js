@@ -1,11 +1,12 @@
 var webpack = require('webpack');
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].bundle.js',
+        libraryTarget: "umd",
+        umdNamedDefine: true
     },
     devServer: {
         contentBase: './dist',
@@ -22,13 +23,5 @@ module.exports = {
                 loader: 'style!css!sass'
             }
         ]
-    },
-    plugins : [
-        new webpack.HotModuleReplacementPlugin(),
-        new HtmlWebpackPlugin({
-            hash: true,
-            template: './index.html',      
-            filename: './index.html'
-        })
-    ]
+    }
 };

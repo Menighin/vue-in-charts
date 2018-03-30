@@ -24,6 +24,7 @@
 
 <script>
     export default {
+        name: 'inline-pie-chart',
         props: {
             slices: { type: Array, default: () => [
                 { name: 'Pie-to-eat', value: 90, color: '#e06557' },

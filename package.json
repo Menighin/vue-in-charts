@@ -8,6 +8,7 @@
     "lint": "eslint src/** test/*",
     "build-dev": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.prd.js",
+    "build-profile": "webpack --config webpack.prd.js --profile --json > stats.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,10 +17,13 @@
     "inline"
   ],
   "files": [
-    "dist/",
-    "src/"
+    "dist/"
   ],
   "author": "Joao Menighin",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Menighin/vue-inline-chart.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "css-loader": "^0.28.11",
