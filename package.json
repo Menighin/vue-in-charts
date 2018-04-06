@@ -26,6 +26,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.13",
     "babel-core": "^6.26.0",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
@@ -46,6 +47,7 @@
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
     "vue": "^2.5.16",
+    "vue-jest": "^2.3.0",
     "vue-loader": "^14.2.1",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.2.0",
@@ -55,5 +57,16 @@
   },
   "dependencies": {
     "vue-test-utils": "^1.0.0-beta.11"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "mapCoverage": true
   }
 }
