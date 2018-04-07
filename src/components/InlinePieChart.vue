@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="inline-pie-wrapper">
         <svg
             class="root"
             viewBox="-1 -1 2 2" 
@@ -137,49 +137,52 @@
     $animation-duration: .1s;
     $animation-time: ease-in-out;
 
-    .root {
+    .inline-pie-wrapper {
+        .root {
 
-        overflow: initial;
-        
-        .inline-pie {
+            overflow: initial;
+            
+            .inline-pie {
 
-            .pie-slice {
-                cursor: pointer;
-                transform: scale(.95, .95);
+                .pie-slice {
+                    cursor: pointer;
+                    transform: scale(.95, .95);
 
-                &:hover {
-                    transform: scale(1, 1);
-                    opacity: 1;
-                    box-shadow: 3px 3px;
+                    &:hover {
+                        transform: scale(1, 1);
+                        opacity: 1;
+                        box-shadow: 3px 3px;
+                    }
+
+                    stroke-dasharray: 0 50; /* for 75% */
+                    animation: fillup 1s ease-out forwards;
+
                 }
 
-                stroke-dasharray: 0 50; /* for 75% */
-                animation: fillup 1s ease-out forwards;
-
+                &:hover > * {
+                    opacity: 0.7;
+                    transition: opacity $animation-duration $animation-time, transform $animation-duration $animation-time;
+                }
             }
 
-            &:hover > * {
-                opacity: 0.7;
-                transition: opacity $animation-duration $animation-time, transform $animation-duration $animation-time;
-            }
-        }
+            .tooltip {
+                overflow: initial;
 
-        .tooltip {
-            overflow: initial;
+                rect {
+                    fill: rgba(255, 255, 255, 0.8);
+                }
 
-            rect {
-                fill: rgba(255, 255, 255, 0.8);
-            }
-
-            text {
-                fill: black;
-                font-family: sans-serif;
+                text {
+                    fill: black;
+                    font-family: sans-serif;
+                }
             }
         }
-    }
 
-    @keyframes fillup {
-        from { stroke-dasharray: 0 100; }
+        @keyframes fillup {
+            from { stroke-dasharray: 0 100; }
+        }
+
     }
 
 </style>
