@@ -5,12 +5,19 @@
         <inline-pie-chart
             :slices="pieSlices"
             :diameter="'100'" />
+
+        <hr>
+
+        <inline-line-chart
+            :data="[20, 1, 10, 5, 25, 10, 30, 12, 5, 20, 30, 23, 22]" />
+
     </div>
 </template>
 
 <script>
     
     import InlinePieChart from './components/InlinePieChart.vue';
+    import InlineLineChart from './components/InlineLineChart.vue';
 
     export default {
         data() {
@@ -24,7 +31,8 @@
             }
         },
         components: {
-            InlinePieChart
+            InlinePieChart,
+            InlineLineChart
         }
     }
 

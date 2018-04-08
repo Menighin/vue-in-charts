@@ -1,4 +1,4 @@
-import { mount } from 'vue-test-utils';
+import { mount } from '@vue/test-utils';
 import { render } from '@vue/server-test-utils'
 import InlinePieChart from '../../src/components/InlinePieChart.vue';
 
