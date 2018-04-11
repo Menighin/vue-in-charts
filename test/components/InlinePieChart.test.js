@@ -7,7 +7,7 @@ describe('InlinePieChart', () => {
     const wrapper = mount(InlinePieChart, {
         propsData: {
             diameter: '100',
-            pieSlices: [
+            slices: [
                 { name: 'Slice 1', value: 90, color: '#F44336' },
                 { name: 'Slice 2', value: 70, color: '#2196F3' },
                 { name: 'Slice 3', value: 50, color: '#8BC34A' },
@@ -22,9 +22,9 @@ describe('InlinePieChart', () => {
     });
 
     it('received parameters', () => {
-        expect(wrapper.props().pieSlices.length).toBe(4);
-        expect(wrapper.props().pieSlices[0].name).toBe('Slice 1');
-        expect(wrapper.props().pieSlices[1].value).toBe(70);
+        expect(wrapper.props().slices.length).toBe(4);
+        expect(wrapper.props().slices[0].name).toBe('Slice 1');
+        expect(wrapper.props().slices[1].value).toBe(70);
         expect(wrapper.props().diameter).toBe('100');
     });
 
