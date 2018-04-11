@@ -7,12 +7,22 @@
             :height="height"
             :style="`padding-top: ${paddingTop}; padding-right: ${paddingRight}; padding-bottom: ${paddingBottom}; padding-left: ${paddingLeft};`">
 
-            <polyline :points="points" stroke="black" stroke-width="3" fill="none" />
+            <defs>
+                <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:tomato;stop-opacity:1" />
+                    <stop offset="80%" style="stop-color:rgb(255,255,0);stop-opacity:0" />
+                </linearGradient>
+            </defs>
 
+
+            <polygon :points="pointsPolygon" fill="url(#grad2)"/>
+            
             <polyline :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
 
+            <polyline :points="points" stroke="black" stroke-width="3" fill="none" />
+
             <g>
-                <circle v-for="(p, i) in points" :key="`point-${i}`" :cx="p[0]" :cy="p[1]" r="3" fill="blue" />
+                <circle v-for="(p, i) in points" :key="`point-${i}`" :cx="p[0]" :cy="p[1]" r="3" fill="blue" class="line-chart-point" />
             </g>
 
         </svg>
@@ -63,13 +73,8 @@
 
                 return points;
             },
-            pointsStr() {
-                let pointsStr = '';
-                this.points.forEach(p =>{
-                    pointsStr += `${p[0]},${p[1]} `;
-                });
-
-                return pointsStr;
+            pointsPolygon() {
+                return [0, parseInt(this.height)].concat(this.points).concat([parseInt(this.width), parseInt(this.height)])
             }
         },
         beforeMount() {
@@ -82,7 +87,17 @@
 
     .inline-line-wrapper {
         .root {
-            background: oldlace;
+
+            .line-chart-point {
+                cursor: pointer;
+                transition: all .3s;
+
+                &:hover {
+                    r: 5;
+                }
+
+            }
+
         }
     }
 
