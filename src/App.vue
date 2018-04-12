@@ -9,7 +9,16 @@
         <hr>
 
         <inline-line-chart
-            :data="[20, 1, 10, 5, 25, -10, 30, 12, 5, 20, 30, 23, 22]"
+            :lines="[{
+                fillColor: 'red',
+                strokeColor: 'tomato',
+                data: [1, 10, 100]
+            },
+            {
+                fillColor: 'blue',
+                strokeColor: 'cyan',
+                data: [100, 10, 1]
+            }]"
             />
 
     </div>
@@ -40,5 +49,8 @@
 </script>
 
 <style>
+
+    body {
+    }
 
 </style>
