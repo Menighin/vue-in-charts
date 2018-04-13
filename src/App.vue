@@ -9,15 +9,15 @@
         <hr>
 
         <inline-line-chart
+            :min-y="-10"
+            :max-y="100"
             :lines="[{
-                fillColor: 'red',
                 strokeColor: 'tomato',
-                data: [1, 10, 100]
+                data: [1, 5, 3, 8, 10]
             },
             {
-                fillColor: 'blue',
                 strokeColor: 'cyan',
-                data: [100, 10, 1]
+                data: [-1, 8, 13, 4, 7]
             }]"
             />
 

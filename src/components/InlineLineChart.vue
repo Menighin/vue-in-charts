@@ -9,12 +9,13 @@
 
             <g>
                 <polygon 
-                    v-for="(l, i) in linesComp" 
+                    v-for="(l, i) in linesComp"
+                    v-if="l.fillColor"
                     :key="`line-fill-${i}`" 
                     :points="l.fillPoints" 
-                    :fill="l.fillColor"
+                    :fill="l._fillColor"
                     class="line-fill" />
-        </g>
+            </g>
 
             <polyline :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
 
@@ -68,63 +69,43 @@
                 const w = parseInt(this.width);
                 let self = this;
 
-                let lines = [];
+                let minValue = null;
+                let maxValue = null;
 
+                // Finding the min and max Y values to calculate the yFactor and zero line position
+                this.lines.forEach(l => {
+                    minValue =              l.data.reduce((min, val) => val < min || min == null ? val : min, l.data[0]);
+                    maxValue = self.maxY || l.data.reduce((max, val) => val > max || max == null ? val : max, l.data[0]);
+                });
+
+                let yTranslate = this.minY || Math.min(0, minValue);
+
+                let yFactor = h / (maxValue - yTranslate);
+
+                // Calculating the height of the zero line
+                this.zeroHeight = h - ((0 - yTranslate) * yFactor);
+
+                // Generating the properties on each line to draw the chart
+                let lines = [];
                 this.lines.forEach(l => {
                     
                     const xStep = w / (l.data.length - 1);
-
-                    let minValue = self.minY || l.data.reduce((min, val) => val < min ? val : min, l.data[0]);
-                    let maxValue = self.maxY || l.data.reduce((max, val) => val > max ? val : max, l.data[0]);
-
-                    let yFactor = h / (maxValue - Math.min(0, minValue));
 
                     // Calculating Y positions
                     l.points = [];
                     let xValue = 0;
                     l.data.forEach(d => {
-                        let yValue = h - ((d - Math.min(0, minValue)) * yFactor);
+                        let yValue = h - ((d - yTranslate) * yFactor);
                         l.points.push([xValue, yValue]);
                         xValue += xStep;
                     });
 
                     l.fillPoints = [0, parseInt(self.height)].concat(l.points).concat([parseInt(self.width), parseInt(self.height)]);
 
-                    // Calculating the height of the zero line
-                    // this.zeroHeight = h - ((0 - Math.min(0, minValue)) * yFactor);
-
                     lines.push(l);
-
                 });
 
                 return lines;
-            },
-            points() {
-                const h = parseInt(this.height);
-                const w = parseInt(this.width);
-                const xStep = w / (this.data.length - 1);
-
-                let minValue = this.minY || this.data.reduce((min, val) => val < min ? val : min, this.data[0]);
-                let maxValue = this.maxY || this.data.reduce((max, val) => val > max ? val : max, this.data[0]);
-
-                let yFactor = h / (maxValue - Math.min(0, minValue));
-
-                // Calculating Y positions
-                let points = [];
-                let xValue = 0;
-                this.data.forEach(d => {
-                    let yValue = h - ((d - Math.min(0, minValue)) * yFactor);
-                    points.push([xValue, yValue]);
-                    xValue += xStep;
-                });
-
-                // Calculating the height of the zero line
-                this.zeroHeight = h - ((0 - Math.min(0, minValue)) * yFactor);
-
-                return points;
-            },
-            pointsPolygon() {
-                return [0, parseInt(this.height)].concat(this.points).concat([parseInt(this.width), parseInt(this.height)])
             }
         },
         beforeMount() {
