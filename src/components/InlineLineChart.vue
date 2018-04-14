@@ -10,7 +10,7 @@
             <g>
                 <polygon 
                     v-for="(l, i) in linesComp"
-                    v-if="l.fillColor"
+                    v-if="l._fillColor"
                     :key="`line-fill-${i}`" 
                     :points="l.fillPoints" 
                     :fill="l._fillColor"
@@ -60,7 +60,8 @@
         },
         data() {
             return {
-                zeroHeight: 0
+                zeroHeight: 0,
+                gradients: []
             }
         },
         computed: {
@@ -102,9 +103,43 @@
 
                     l.fillPoints = [0, parseInt(self.height)].concat(l.points).concat([parseInt(self.width), parseInt(self.height)]);
 
+                    // Processing the fill ccolor
+                    if (l.fillColor) {
+                        // If it is just a string, then it is a solid color
+                        if (typeof l.fillColor === 'string') {
+                            l._fillColor = l.fillColor;
+                        // Otherwise, it is a gradient and we need to create the necessary structure
+                        } else if (l.fillColor.constructor === Object) {
+                            l._fillColor = `url(#gradient-${self.gradients.length})`;
+
+                            let gradient = { 
+                                type: l.fillColor.type || 'linearGradient',
+                                x1: l.fillColor.x1 || '0%',
+                                x2: l.fillColor.x2 || '0%',
+                                y1: l.fillColor.y1 || '0%',
+                                y2: l.fillColor.y2 || '100%',
+                                stops: [] 
+                            };
+
+                            // Stops may be defined as a simple array of colors and then they are equally distributed or with an offset property
+                            l.fillColor.stops.forEach((s, i) => {
+                                if (typeof s === 'string') {
+                                    gradient.stops.push({
+                                        offset: `${i * (100 / (l.fillColor.stops.length - 1))}%`, 
+                                        color: s
+                                    });
+                                } else if (s.constructor === Object) {
+                                    gradient.stops.push(s);
+                                }
+                            });
+
+                            self.gradients.push(gradient);
+                        }
+                    }
+
                     lines.push(l);
                 });
-
+                console.log(this.gradients);
                 return lines;
             }
         },
