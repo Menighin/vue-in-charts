@@ -7,6 +7,12 @@
             :height="height"
             :style="`padding-top: ${paddingTop}; padding-right: ${paddingRight}; padding-bottom: ${paddingBottom}; padding-left: ${paddingLeft};`">
 
+            <defs>
+                <linearGradient v-for="(g, i) in gradients" :key="`gradient-${i}`" :id="`gradient-${i}`" :x1="g.x1" :y1="g.y1" :x2="g.x2" :y2="g.y2">
+                    <stop v-for="(s, j) in g.stops" :key="`stop-${i}-${j}`" :offset="s.offset" :style="`stop-color:${s.color}`" />
+                </linearGradient>
+            </defs>
+
             <g>
                 <polygon 
                     v-for="(l, i) in linesComp"
@@ -113,7 +119,6 @@
                             l._fillColor = `url(#gradient-${self.gradients.length})`;
 
                             let gradient = { 
-                                type: l.fillColor.type || 'linearGradient',
                                 x1: l.fillColor.x1 || '0%',
                                 x2: l.fillColor.x2 || '0%',
                                 y1: l.fillColor.y1 || '0%',

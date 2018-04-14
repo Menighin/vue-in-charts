@@ -18,7 +18,10 @@
                 strokeColor: 'cyan',
                 data: [-1, 8, 13, 4, 7],
                 fillColor: {
-                    stops: ['red', 'blue']
+                    stops: [
+                        { offset: '0%',  color: 'rgba(200, 100, 100, 1)'  },
+                        { offset: '30%', color: 'rgba(200, 100, 100, 0)' }
+                    ]
                 }
             }]"
             />
