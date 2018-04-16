@@ -33,14 +33,16 @@
                     fill="none"
                     class="line-stroke" />
 
-                <g>
+                <g v-if="showPoints">
                     <circle 
                         v-for="(p, j) in l.points" 
                         :key="`point-${i}-${j}`" 
                         :cx="p[0]" 
                         :cy="p[1]" 
-                        r="3" 
-                        fill="blue" 
+                        :r="l.pointRadius || 4" 
+                        :fill="l.pointColor || 'white'"
+                        :stroke="l.strokeColor"
+                        stroke-width="3"
                         class="line-point" />
                 </g>
             </g>
@@ -53,16 +55,17 @@
 <script>
     export default {
         props: {
-            width:         { type: String, default: '250'  },
-            height:        { type: String, default: '100'  },
-            data:          { type: Array,  required: false },
-            lines:         { type: Array,  required: true  },
-            minY:          { type: Number, default:  null  },
-            maxY:          { type: Number, defaukt:  null  },
-            paddingTop:    { type: String, default:  '5px' },
-            paddingRight:  { type: String, default:  '5px' },
-            paddingBottom: { type: String, default:  '5px' },
-            paddingLeft:   { type: String, default:  '5px' },
+            width:         { type: String,  default:  '250'   },
+            height:        { type: String,  default:  '100'   },
+            data:          { type: Array,   required: false   },
+            lines:         { type: Array,   required: true    },
+            showPoints:    { type: Boolean, default:  true    },
+            minY:          { type: Number,  default:  null    },
+            maxY:          { type: Number,  defaukt:  null    },
+            paddingTop:    { type: String,  default:  '5px'   },
+            paddingRight:  { type: String,  default:  '5px'   },
+            paddingBottom: { type: String,  default:  '5px'   },
+            paddingLeft:   { type: String,  default:  '5px'   },
         },
         data() {
             return {
@@ -144,7 +147,6 @@
 
                     lines.push(l);
                 });
-                console.log(this.gradients);
                 return lines;
             }
         },

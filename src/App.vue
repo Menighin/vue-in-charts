@@ -9,20 +9,18 @@
         <hr>
 
         <inline-line-chart
+            width="800"
+            height="600"
+            :showPoints="true"
             :lines="[{
-                strokeColor: 'tomato',
+                strokeColor: 'rgb(80, 200, 80)',
                 data: [1, 5, 3, 8, 10],
-                fillColor: 'rgba(100, 200, 100, 0.3)'
+                fillColor: 'rgba(80, 200, 80, 0.3)'
             },
             {
-                strokeColor: 'cyan',
+                strokeColor: 'rgb(200, 80, 80)',
                 data: [-1, 8, 13, 4, 7],
-                fillColor: {
-                    stops: [
-                        { offset: '0%',  color: 'rgba(200, 100, 100, 1)'  },
-                        { offset: '30%', color: 'rgba(200, 100, 100, 0)' }
-                    ]
-                }
+                fillColor: 'rgba(200, 80, 80, 0.3)'
             }]"
             />
 
