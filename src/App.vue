@@ -9,18 +9,17 @@
         <hr>
 
         <inline-line-chart
-            width="800"
-            height="600"
-            :showPoints="true"
+            width="100"
+            height="50"
+            :showPoints="false"
             :lines="[{
                 strokeColor: 'rgb(80, 200, 80)',
+                strokeWidth: 2,
                 data: [1, 5, 3, 8, 10],
-                fillColor: 'rgba(80, 200, 80, 0.3)'
             },
             {
                 strokeColor: 'rgb(200, 80, 80)',
-                data: [-1, 8, 13, 4, 7],
-                fillColor: 'rgba(200, 80, 80, 0.3)'
+                data: [-1, 8, 13, 4, 7, 5],
             }]"
             />
 

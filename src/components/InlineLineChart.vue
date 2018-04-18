@@ -18,7 +18,7 @@
                         v-for="(l, i) in linesComp"
                         v-if="l._fillColor"
                         :key="`line-fill-${i}`" 
-                        :points="l.fillPoints" 
+                        :points="l.fillPoints.reduce((arr, v) => { arr.push([v.x, v.y]); return arr; }, [])" 
                         :fill="l._fillColor"
                         class="line-fill" />
                 </g>
@@ -27,9 +27,9 @@
 
                 <g v-for="(l, i) in linesComp" :key="`line-stroke-${i}`" >
                     <polyline 
-                        :points="l.points" 
+                        :points="l.points.reduce((arr, v) => { arr.push([v.x, v.y]); return arr; }, [])" 
                         :stroke="l.strokeColor" 
-                        stroke-width="3" 
+                        :stroke-width="l.strokeWidth || 2" 
                         fill="none"
                         class="line-stroke" />
 
@@ -37,12 +37,12 @@
                         <circle 
                             v-for="(p, j) in l.points" 
                             :key="`point-${i}-${j}`" 
-                            :cx="p[0]" 
-                            :cy="p[1]" 
-                            :r="l.pointRadius || 4" 
+                            :cx="p.x" 
+                            :cy="p.y" 
+                            :r="l.pointRadius || 2" 
                             :fill="l.pointColor || 'white'"
                             :stroke="l.strokeColor"
-                            stroke-width="3"
+                            :stroke-width="l.strokeWidth || 2"
                             class="line-point"
                             @mousemove="showTooltip(p)"
                             @mouseout="isShowingTooltip = false" />
@@ -50,10 +50,10 @@
                 </g>
             </svg>
 
-            <svg :x="tooltip.x" :y="tooltip.y" class="tooltip" ref="tooltip" :style="`visibility: ${isShowingTooltip ? 'visible' : 'hidden'}`">
+            <svg :x="tooltip.x" :y="tooltip.y" class="tooltip" ref="tooltip" :style="`overflow: initial; visibility: ${isShowingTooltip ? 'visible' : 'hidden'}`">
                 <g>
-                    <rect :width="100" :height="10" />
-                    <!-- <text ref="tooltipText" :style="`font-size: ${fontSize}`" :y="textY" :x="pixelToSvg(4)" alignment-baseline="central"> {{ tooltipText }} </text> -->
+                    <rect :width="tooltip.width || 100" :height="20" fill="rgba(255, 255, 255, 0.7)" stroke="#ccc" />
+                    <text x="3" y="10" font-size="14" font-family="monospace" ref="tooltipText" alignment-baseline="central"> {{ tooltip.text }} </text>
                 </g>
             </svg>
 
@@ -65,13 +65,13 @@
 <script>
     export default {
         props: {
-            width:         { type: String,  default:  '250'   },
-            height:        { type: String,  default:  '100'   },
-            data:          { type: Array,   required: false   },
-            lines:         { type: Array,   required: true    },
-            showPoints:    { type: Boolean, default:  true    },
-            minY:          { type: Number,  default:  null    },
-            maxY:          { type: Number,  defaukt:  null    }
+            width:      { type: String,  default:  '250' },
+            height:     { type: String,  default:  '100' },
+            data:       { type: Array,   required: false },
+            lines:      { type: Array,   required: true  },
+            showPoints: { type: Boolean, default:  true  },
+            minY:       { type: Number,  default:  null  },
+            maxY:       { type: Number,  defaukt:  null  }
         },
         data() {
             return {
@@ -80,7 +80,8 @@
                 isShowingTooltip: false,
                 tooltip: {
                     x: 0,
-                    y: 0
+                    y: 0,
+                    text: ''
                 }
             }
         },
@@ -88,10 +89,14 @@
             showTooltip(point) {
                 if (!this.isShowingTooltip) {
                     this.isShowingTooltip = true;
+                    let text = point.value;
+                    let width = text.toString().length * 8 + 6
                     this.tooltip = {
-                        x: point[0],
-                        y: point[1] -20
-                    }
+                        x: point.x - width / 2,
+                        y: point.y - 30,
+                        text: text,
+                        width: width
+                    };
                     console.log('show');
                 }
             }
@@ -111,9 +116,11 @@
 
                 // Finding the min and max Y values to calculate the yFactor and zero line position
                 this.lines.forEach(l => {
-                    minValue  =              l.data.reduce((min, val) => val < min || min == null ? val : min, l.data[0]);
-                    maxValue  = self.maxY || l.data.reduce((max, val) => val > max || max == null ? val : max, l.data[0]);                    
+                    minValue  =              l.data.reduce((min, val) => val < min || min == null ? val : min, minValue);
+                    maxValue  = self.maxY || l.data.reduce((max, val) => val > max || max == null ? val : max, maxValue);                    
                 });
+
+                console.log(maxValue);
 
                 const h = parseInt(this.height) - 2 * maxRadius;
                 const w = parseInt(this.width) - 2 * maxRadius;
@@ -136,11 +143,11 @@
                     let xValue = maxRadius; // Start at maxRadius to pad the chart and dont crop the circle
                     l.data.forEach(d => {
                         let yValue = h - ((d - yTranslate) * yFactor) + maxRadius;
-                        l.points.push([xValue, yValue]);
+                        l.points.push({ x: xValue, y: yValue, value: d });
                         xValue += xStep;
                     });
 
-                    l.fillPoints = [maxRadius, h + maxRadius].concat(l.points).concat([w + maxRadius, h + maxRadius]);
+                    l.fillPoints = [{x: maxRadius, y: h + maxRadius}].concat(l.points).concat([{x: w + maxRadius, y: h + maxRadius}]);
 
                     // Processing the fill ccolor
                     if (l.fillColor) {
