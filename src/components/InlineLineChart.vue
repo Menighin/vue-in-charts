@@ -4,48 +4,58 @@
             class="root"
             ref="svg"
             :width="width"
-            :height="height"
-            :style="`padding-top: ${paddingTop}; padding-right: ${paddingRight}; padding-bottom: ${paddingBottom}; padding-left: ${paddingLeft};`">
+            :height="height">
 
-            <defs>
-                <linearGradient v-for="(g, i) in gradients" :key="`gradient-${i}`" :id="`gradient-${i}`" :x1="g.x1" :y1="g.y1" :x2="g.x2" :y2="g.y2">
-                    <stop v-for="(s, j) in g.stops" :key="`stop-${i}-${j}`" :offset="s.offset" :style="`stop-color:${s.color}`" />
-                </linearGradient>
-            </defs>
+            <svg class="croped" :width="width" :height="height">
+                <defs>
+                    <linearGradient v-for="(g, i) in gradients" :key="`gradient-${i}`" :id="`gradient-${i}`" :x1="g.x1" :y1="g.y1" :x2="g.x2" :y2="g.y2">
+                        <stop v-for="(s, j) in g.stops" :key="`stop-${i}-${j}`" :offset="s.offset" :style="`stop-color:${s.color}`" />
+                    </linearGradient>
+                </defs>
 
-            <g>
-                <polygon 
-                    v-for="(l, i) in linesComp"
-                    v-if="l._fillColor"
-                    :key="`line-fill-${i}`" 
-                    :points="l.fillPoints" 
-                    :fill="l._fillColor"
-                    class="line-fill" />
-            </g>
-
-            <polyline :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
-
-            <g v-for="(l, i) in linesComp" :key="`line-stroke-${i}`" >
-                <polyline 
-                    :points="l.points" 
-                    :stroke="l.strokeColor" 
-                    stroke-width="3" 
-                    fill="none"
-                    class="line-stroke" />
-
-                <g v-if="showPoints">
-                    <circle 
-                        v-for="(p, j) in l.points" 
-                        :key="`point-${i}-${j}`" 
-                        :cx="p[0]" 
-                        :cy="p[1]" 
-                        :r="l.pointRadius || 4" 
-                        :fill="l.pointColor || 'white'"
-                        :stroke="l.strokeColor"
-                        stroke-width="3"
-                        class="line-point" />
+                <g>
+                    <polygon 
+                        v-for="(l, i) in linesComp"
+                        v-if="l._fillColor"
+                        :key="`line-fill-${i}`" 
+                        :points="l.fillPoints" 
+                        :fill="l._fillColor"
+                        class="line-fill" />
                 </g>
-            </g>
+
+                <polyline :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
+
+                <g v-for="(l, i) in linesComp" :key="`line-stroke-${i}`" >
+                    <polyline 
+                        :points="l.points" 
+                        :stroke="l.strokeColor" 
+                        stroke-width="3" 
+                        fill="none"
+                        class="line-stroke" />
+
+                    <g v-if="showPoints">
+                        <circle 
+                            v-for="(p, j) in l.points" 
+                            :key="`point-${i}-${j}`" 
+                            :cx="p[0]" 
+                            :cy="p[1]" 
+                            :r="l.pointRadius || 4" 
+                            :fill="l.pointColor || 'white'"
+                            :stroke="l.strokeColor"
+                            stroke-width="3"
+                            class="line-point"
+                            @mousemove="showTooltip(p)"
+                            @mouseout="isShowingTooltip = false" />
+                    </g>
+                </g>
+            </svg>
+
+            <svg :x="tooltip.x" :y="tooltip.y" class="tooltip" ref="tooltip" :style="`visibility: ${isShowingTooltip ? 'visible' : 'hidden'}`">
+                <g>
+                    <rect :width="100" :height="10" />
+                    <!-- <text ref="tooltipText" :style="`font-size: ${fontSize}`" :y="textY" :x="pixelToSvg(4)" alignment-baseline="central"> {{ tooltipText }} </text> -->
+                </g>
+            </svg>
 
         </svg>
 
@@ -61,32 +71,52 @@
             lines:         { type: Array,   required: true    },
             showPoints:    { type: Boolean, default:  true    },
             minY:          { type: Number,  default:  null    },
-            maxY:          { type: Number,  defaukt:  null    },
-            paddingTop:    { type: String,  default:  '5px'   },
-            paddingRight:  { type: String,  default:  '5px'   },
-            paddingBottom: { type: String,  default:  '5px'   },
-            paddingLeft:   { type: String,  default:  '5px'   },
+            maxY:          { type: Number,  defaukt:  null    }
         },
         data() {
             return {
                 zeroHeight: 0,
-                gradients: []
+                gradients: [],
+                isShowingTooltip: false,
+                tooltip: {
+                    x: 0,
+                    y: 0
+                }
+            }
+        },
+        methods: {
+            showTooltip(point) {
+                if (!this.isShowingTooltip) {
+                    this.isShowingTooltip = true;
+                    this.tooltip = {
+                        x: point[0],
+                        y: point[1] -20
+                    }
+                    console.log('show');
+                }
             }
         },
         computed: {
             linesComp() {
-                const h = parseInt(this.height);
-                const w = parseInt(this.width);
+
                 let self = this;
 
                 let minValue = null;
                 let maxValue = null;
+                let maxRadius = 4;
+
+                // Finding the maximum radius to pad the chart in order to not crop the circles
+                maxRadius = this.lines.reduce((max, val) => val > max ? val : max, maxRadius);
+                maxRadius += 3; // Add the stroke width
 
                 // Finding the min and max Y values to calculate the yFactor and zero line position
                 this.lines.forEach(l => {
-                    minValue =              l.data.reduce((min, val) => val < min || min == null ? val : min, l.data[0]);
-                    maxValue = self.maxY || l.data.reduce((max, val) => val > max || max == null ? val : max, l.data[0]);
+                    minValue  =              l.data.reduce((min, val) => val < min || min == null ? val : min, l.data[0]);
+                    maxValue  = self.maxY || l.data.reduce((max, val) => val > max || max == null ? val : max, l.data[0]);                    
                 });
+
+                const h = parseInt(this.height) - 2 * maxRadius;
+                const w = parseInt(this.width) - 2 * maxRadius;
 
                 let yTranslate = this.minY || Math.min(0, minValue);
 
@@ -103,14 +133,14 @@
 
                     // Calculating Y positions
                     l.points = [];
-                    let xValue = 0;
+                    let xValue = maxRadius; // Start at maxRadius to pad the chart and dont crop the circle
                     l.data.forEach(d => {
-                        let yValue = h - ((d - yTranslate) * yFactor);
+                        let yValue = h - ((d - yTranslate) * yFactor) + maxRadius;
                         l.points.push([xValue, yValue]);
                         xValue += xStep;
                     });
 
-                    l.fillPoints = [0, parseInt(self.height)].concat(l.points).concat([parseInt(self.width), parseInt(self.height)]);
+                    l.fillPoints = [maxRadius, h + maxRadius].concat(l.points).concat([w + maxRadius, h + maxRadius]);
 
                     // Processing the fill ccolor
                     if (l.fillColor) {
@@ -144,7 +174,6 @@
                             self.gradients.push(gradient);
                         }
                     }
-
                     lines.push(l);
                 });
                 return lines;
@@ -160,15 +189,18 @@
 
     .inline-line-wrapper {
         .root {
+            overflow: initial;
+            .croped {
 
-            .line-point {
-                cursor: pointer;
-                transition: all .3s;
+                .line-point {
+                    cursor: pointer;
+                    transition: all .3s;
 
-                &:hover {
-                    r: 5;
+                    &:hover {
+                        r: 5;
+                    }
+
                 }
-
             }
 
         }
