@@ -11,10 +11,9 @@
         <inline-line-chart
             width="100"
             height="50"
-            :showPoints="false"
+            :showPoints="true"
             :lines="[{
                 strokeColor: 'rgb(80, 200, 80)',
-                strokeWidth: 2,
                 data: [1, 5, 3, 8, 10],
             },
             {

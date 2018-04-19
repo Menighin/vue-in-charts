@@ -9,7 +9,7 @@
     "build-dev": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.prd.js",
     "build-profile": "webpack --config webpack.prd.js --profile --json > stats.json",
-    "test": "jest"
+    "test": "jest --coverage --verbose"
   },
   "keywords": [
     "vue",

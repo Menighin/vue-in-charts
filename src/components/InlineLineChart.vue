@@ -23,7 +23,7 @@
                         class="line-fill" />
                 </g>
 
-                <polyline :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
+                <polyline class="line-zero" :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
 
                 <g v-for="(l, i) in linesComp" :key="`line-stroke-${i}`" >
                     <polyline 
@@ -97,7 +97,6 @@
                         text: text,
                         width: width
                     };
-                    console.log('show');
                 }
             }
         },
@@ -119,8 +118,6 @@
                     minValue  =              l.data.reduce((min, val) => val < min || min == null ? val : min, minValue);
                     maxValue  = self.maxY || l.data.reduce((max, val) => val > max || max == null ? val : max, maxValue);                    
                 });
-
-                console.log(maxValue);
 
                 const h = parseInt(this.height) - 2 * maxRadius;
                 const w = parseInt(this.width) - 2 * maxRadius;
