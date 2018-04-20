@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils';
 import { render } from '@vue/server-test-utils'
-import InlineLineChart from '../../src/components/InlineLineChart.vue';
+import InLineChart from '../../src/components/InLineChart.vue';
 
-describe('InlineLineChart', () => {
+describe('InLineChart', () => {
 
-    const wrapper = mount(InlineLineChart, {
+    const wrapper = mount(InLineChart, {
         propsData: {
             width: '100',
             height: '50',

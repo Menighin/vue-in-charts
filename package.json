@@ -1,7 +1,7 @@
 {
-  "name": "vue-inline-chart",
+  "name": "vue-in-chart",
   "version": "0.0.1",
-  "description": "A Vue component to draw small charts inline and in tables",
+  "description": "A Vue component to draw small charts in and in tables",
   "main": "dist/main.bundle.js",
   "scripts": {
     "dev": "webpack-dev-server --open --config webpack.dev.js",
@@ -13,7 +13,12 @@
   },
   "keywords": [
     "vue",
+    "vuejs",
     "chart",
+    "pie-chart",
+    "line-chart",
+    "bar-chart",
+    "svg",
     "inline"
   ],
   "files": [
@@ -22,7 +27,7 @@
   "author": "Joao Menighin",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Menighin/vue-inline-chart.git"
+    "url": "git://github.com/Menighin/vue-in-chart.git"
   },
   "license": "MIT",
   "devDependencies": {

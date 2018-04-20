@@ -1,14 +1,14 @@
 <template>
     <div class="container">
-        <h1>Vue Inline Charts</h1>
+        <h1>Vue In Charts</h1>
 
-        <inline-pie-chart
+        <in-pie-chart
             :slices="pieSlices"
             :diameter="'100'" />
 
         <hr>
 
-        <inline-line-chart
+        <in-line-chart
             width="100"
             height="50"
             :showPoints="true"
@@ -27,8 +27,8 @@
 
 <script>
     
-    import InlinePieChart from './components/InlinePieChart.vue';
-    import InlineLineChart from './components/InlineLineChart.vue';
+    import InPieChart from './components/InPieChart.vue';
+    import InLineChart from './components/InLineChart.vue';
 
     export default {
         data() {
@@ -42,8 +42,8 @@
             }
         },
         components: {
-            InlinePieChart,
-            InlineLineChart
+            InPieChart,
+            InLineChart
         }
     }
 

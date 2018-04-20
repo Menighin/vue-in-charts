@@ -1,5 +1,5 @@
 <template>
-    <div class="inline-pie-wrapper">
+    <div class="in-pie-wrapper">
         <svg
             class="root"
             viewBox="-1 -1 2 2" 
@@ -7,7 +7,7 @@
             :width="diameter"
             :height="diameter"> 
 
-            <g class="inline-pie" :transform="`rotate(${parseInt(rotate)})`">
+            <g class="in-pie" :transform="`rotate(${parseInt(rotate)})`">
                 <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip" />
             </g>
 
@@ -24,7 +24,7 @@
 
 <script>
     export default {
-        name: 'inline-pie-chart',
+        name: 'in-pie-chart',
         props: {
             slices: { type: Array, default: () => [
                 { name: 'Pie-to-eat', value: 90, color: '#e06557' },
@@ -137,12 +137,12 @@
     $animation-duration: .1s;
     $animation-time: ease-in-out;
 
-    .inline-pie-wrapper {
+    .in-pie-wrapper {
         .root {
 
             overflow: initial;
             
-            .inline-pie {
+            .in-pie {
 
                 .pie-slice {
                     cursor: pointer;

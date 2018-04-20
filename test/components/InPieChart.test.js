@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils';
 import { render } from '@vue/server-test-utils'
-import InlinePieChart from '../../src/components/InlinePieChart.vue';
+import InPieChart from '../../src/components/InPieChart.vue';
 
-describe('InlinePieChart', () => {
+describe('InPieChart', () => {
 
-    const wrapper = mount(InlinePieChart, {
+    const wrapper = mount(InPieChart, {
         propsData: {
             diameter: '100',
             slices: [

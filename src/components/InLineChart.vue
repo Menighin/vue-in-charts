@@ -1,5 +1,5 @@
 <template>
-    <div class="inline-line-wrapper">
+    <div class="in-line-wrapper">
         <svg
             class="root"
             ref="svg"
@@ -191,7 +191,7 @@
 
 <style lang="scss" scoped>
 
-    .inline-line-wrapper {
+    .in-line-wrapper {
         .root {
             overflow: initial;
             .croped {
