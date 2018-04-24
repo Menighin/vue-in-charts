@@ -29,3 +29,16 @@ Use it on your template. Below you can find the options for each chart.
         ]"
     :diameter="'100'" />
 ```
+
+## Properties
+
+### Pie Chart (InPieChart)
+
+| Property | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `diameter` | String | `false` | `'100%'` | The diameter of the pie. In other words, its width and height. |
+| `rotate` | Number | `false` | `-90` | The rotation of the pie. -90 means the first slice will start at 90º |
+| `slices` | Array (of slice) | `true`   |       | An array of objects. Each one representing a slice of the pie. |
+| `slice.name` | String | `false` |       | The name of the `slice`. Will be displayed on hovering the chart |
+| `slice.value` | Number | `true` |       | The value of the `slice`. Will be displayed on hovering the chart and also will be used to calculate the percentage |
+| `slice.color` | String | `true` |       | Will be used to fill the slice with the color. |

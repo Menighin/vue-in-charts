@@ -67,7 +67,6 @@
         props: {
             width:      { type: String,  default:  '250' },
             height:     { type: String,  default:  '100' },
-            data:       { type: Array,   required: false },
             lines:      { type: Array,   required: true  },
             showPoints: { type: Boolean, default:  true  },
             minY:       { type: Number,  default:  null  },
