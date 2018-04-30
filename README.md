@@ -42,3 +42,5 @@ Use it on your template. Below you can find the options for each chart.
 | `slice.name` | String | `false` |       | The name of the `slice`. Will be displayed on hovering the chart |
 | `slice.value` | Number | `true` |       | The value of the `slice`. Will be displayed on hovering the chart and also will be used to calculate the percentage |
 | `slice.color` | String | `true` |       | Will be used to fill the slice with the color. |
+
+### Line Chart (InLineChart)
