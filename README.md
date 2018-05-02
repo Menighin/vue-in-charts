@@ -44,3 +44,19 @@ Use it on your template. Below you can find the options for each chart.
 | `slice.color` | String | `true` |       | Will be used to fill the slice with the color. |
 
 ### Line Chart (InLineChart)
+
+| Property | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `width` | String | `false` | `'250'` | The width of the chart. |
+| `height` | String | `false` | `'100'` | The height of the chart. |
+| `show-points` | Boolean | `false` | `true` | Weather or not the points should be drawn. |
+| `min-y` | Number | `false`   | `null` | The minimum value for the Y axis. If none is passed, the smaller value will be used. |
+| `max-y` | Number | `false`   | `null` | The maximum value for the Y axis. If none is passed, the greater value will be used. |
+| `lines` | Array (of line) | `true` |       | An array containing the several lines and its properties. |
+| `line.data` | Array (of numbers) | `true` |     | An array of numbers representing the Y axis values for the line. |
+| `line.pointRadius` | Number | `false` |  `3`   | The radius of the point on this line. Only applicable if `show-points` is `true`. |
+| `line.pointColor` | String | `false` | `white` | The color for the points of this line. Only applicable if `show-points` is `true` |
+| `line.strokeWidth` | Number | `false` |  `2`    | The stroke width for this line. |
+| `line.strokeColor` | String | `true` |      | A color string fpr the line color. |
+| `line.fillColor`   | String | `false` |      | A color string representing the color of the area below the line. |
+| `line.fillColor` | Array | `false` |      | An array of color strings representing the gradient of the area below the line. |
