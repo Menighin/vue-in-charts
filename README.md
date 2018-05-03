@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Menighin/vue-in-charts.svg?branch=master)](https://travis-ci.org/Menighin/vue-in-charts)
+[![Coverage Status](https://coveralls.io/repos/github/Menighin/vue-in-charts/badge.svg?branch=master)](https://coveralls.io/github/Menighin/vue-in-charts?branch=master)
+
 # vue-in-charts
 Small Vue component to build simple small charts. Intended to be placed inline boxes and tables. :bar_chart: :chart_with_upwards_trend:  
 
