@@ -10,7 +10,8 @@
     "build": "webpack --config webpack.prd.js",
     "build-profile": "webpack --config webpack.prd.js --profile --json > stats.json",
     "test": "jest",
-    "test-debug": "jest --coverage --verbose"
+    "test-debug": "jest --coverage --verbose",
+    "coveralls": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "keywords": [
     "vue",
@@ -38,6 +39,7 @@
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
     "cheerio": "^1.0.0-rc.2",
+    "coveralls": "^3.0.1",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
@@ -64,9 +66,7 @@
     "webpack-dev-server": "^3.1.1",
     "webpack-merge": "^4.1.2"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "jest": {
     "moduleFileExtensions": [
       "js",
