@@ -63,3 +63,7 @@ Use it on your template. Below you can find the options for each chart.
 | `line.strokeColor` | String | `true` |      | A color string fpr the line color. |
 | `line.fillColor`   | String | `false` |      | A color string representing the color of the area below the line. |
 | `line.fillColor` | Array | `false` |      | An array of color strings representing the gradient of the area below the line. |
+
+### Bar Chart (InBarChart)
+
+Soon
