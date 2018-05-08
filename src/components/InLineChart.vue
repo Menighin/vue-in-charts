@@ -121,8 +121,10 @@
                 const h = parseInt(this.height) - 2 * maxRadius;
                 const w = parseInt(this.width) - 2 * maxRadius;
 
+                // How much translate on the Y axis based on the min parameter or the min value on the series
                 let yTranslate = this.minY || Math.min(0, minValue);
 
+                // This is how much 1 unit represents in pixels
                 let yFactor = h / (maxValue - yTranslate);
 
                 // Calculating the height of the zero line

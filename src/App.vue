@@ -20,15 +20,24 @@
                 strokeColor: 'rgb(200, 80, 80)',
                 data: [-1, 8, 13, 4, 7, 5],
             }]"
-            />
+        />
+
+        <hr>
+
+        <in-bar-chart
+            width="100"
+            height="50"
+            :bars="[-10, 20, 40]"
+        />
 
     </div>
 </template>
 
 <script>
     
-    import InPieChart from './components/InPieChart.vue';
+    import InPieChart  from './components/InPieChart.vue';
     import InLineChart from './components/InLineChart.vue';
+    import InBarChart  from './components/InBarChart.vue';
 
     export default {
         data() {
@@ -43,7 +52,8 @@
         },
         components: {
             InPieChart,
-            InLineChart
+            InLineChart,
+            InBarChart
         }
     }
 
