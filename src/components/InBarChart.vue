@@ -6,11 +6,19 @@
             :width="width"
             :height="height">
 
+            <g class="bars-group">
+                <rect class="bar" 
+                    v-for="(b, i) in barsComp" :key="`bar-${i}`"
+                    :x="b.x"
+                    :y="b.y"
+                    :height="b.height"
+                    :width="b.width"
+                />
+            </g>
+
             <polyline class="line-zero" :points="`0,${zeroHeight} ${width},${zeroHeight}`" stroke="#aaa" stroke-width="1" fill="none" stroke-dasharray="1, 2" />
 
         </svg>
-
-        {{barComp}}
     </div>
 </template>
 
@@ -30,7 +38,7 @@
             
         },
         computed: {
-            barComp() {
+            barsComp() {
                 let self = this;
 
                 let maxValue = null;
@@ -51,7 +59,25 @@
                 // Calculating the height of the zero line
                 this.zeroHeight = h - ((0 - yTranslate) * yFactor);
 
-                return '';
+                // Calculate the width of each bar
+                let barWidth = w / this.bars.length;
+
+                // Calculating the bars
+                let bars = [];
+                let xStep = barWidth;
+                let xCurr = 0;
+                this.bars.forEach(b => {
+                    bars.push({
+                        width: barWidth,
+                        height: Math.abs(b * yFactor),
+                        x: xCurr,
+                        y: b > 0 ? h - ((b - yTranslate) * yFactor) : self.zeroHeight
+                    });
+                    xCurr += xStep;
+                });
+
+                console.log(bars);
+                return bars;
             }
         },
         beforeMount() {
