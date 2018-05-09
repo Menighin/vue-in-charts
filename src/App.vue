@@ -27,7 +27,10 @@
         <in-bar-chart
             width="100"
             height="50"
+            :fill-color="['tomato', 'brown']"
             :bars="[-10, 20, 40, 80, -30, 10, 25]"
+            :stroke-color="'#000'"
+            :padding="3"
         />
 
     </div>
