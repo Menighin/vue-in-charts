@@ -19,6 +19,7 @@
             {
                 strokeColor: 'rgb(200, 80, 80)',
                 data: [-1, 8, 13, 4, 7, 5],
+                fillColor: ['tomato', 'brown']
             }]"
         />
 
@@ -30,7 +31,7 @@
             :fill-color="['tomato', 'brown']"
             :bars="[-10, 20, 40, 80, -30, 10, 25]"
             :stroke-color="'#000'"
-            :padding="3"
+            :padding="0"
         />
 
     </div>

@@ -63,6 +63,9 @@
 </template>
 
 <script>
+
+    import ChartUtils from '../utils/ChartUtils';
+
     export default {
         props: {
             width:      { type: String,  default:  '250' },
@@ -147,37 +150,9 @@
 
                     l.fillPoints = [{x: maxRadius, y: h + maxRadius}].concat(l.points).concat([{x: w + maxRadius, y: h + maxRadius}]);
 
-                    // Processing the fill ccolor
+                    // Processing the fill color
                     if (l.fillColor) {
-                        // If it is just a string, then it is a solid color
-                        if (typeof l.fillColor === 'string') {
-                            l._fillColor = l.fillColor;
-                        // Otherwise, it is a gradient and we need to create the necessary structure
-                        } else if (l.fillColor.constructor === Object) {
-                            l._fillColor = `url(#gradient-${self.gradients.length})`;
-
-                            let gradient = { 
-                                x1: l.fillColor.x1 || '0%',
-                                x2: l.fillColor.x2 || '0%',
-                                y1: l.fillColor.y1 || '0%',
-                                y2: l.fillColor.y2 || '100%',
-                                stops: [] 
-                            };
-
-                            // Stops may be defined as a simple array of colors and then they are equally distributed or with an offset property
-                            l.fillColor.stops.forEach((s, i) => {
-                                if (typeof s === 'string') {
-                                    gradient.stops.push({
-                                        offset: `${i * (100 / (l.fillColor.stops.length - 1))}%`, 
-                                        color: s
-                                    });
-                                } else if (s.constructor === Object) {
-                                    gradient.stops.push(s);
-                                }
-                            });
-
-                            self.gradients.push(gradient);
-                        }
+                        l._fillColor = ChartUtils.getSvgColorProperty(l.fillColor, self.gradients);
                     }
                     lines.push(l);
                 });
