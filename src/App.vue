@@ -32,7 +32,6 @@
             :bars="[-10, 20, 40, {value: 80, fillColor: ['DeepSkyBlue', 'DodgerBlue']}, -30, 10, 25]"
             :stroke-color="'#000'"
             :padding="0"
-            :min-y="0"
         />
 
     </div>
