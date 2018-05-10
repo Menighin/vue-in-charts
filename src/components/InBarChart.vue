@@ -70,8 +70,8 @@
                 const fillColor = this.fillColorComp;
 
                 // Finding the min and max Y values to calculate the yFactor and zero line position
-                minValue  =              this.bars.reduce((min, val) => val < min || min == null ? val : min, minValue);
-                maxValue  = self.maxY || this.bars.reduce((max, val) => val > max || max == null ? val : max, maxValue);
+                minValue  =              this.bars.reduce((min, b) => (b.value || b) < min || min == null ? (b.value || b) : min, minValue);
+                maxValue  = self.maxY || this.bars.reduce((max, b) => (b.value || b) > max || max == null ? (b.value || b) : max, maxValue);
 
                 const h = parseInt(this.height) - 2 * strokePadding;
                 const w = parseInt(this.width) - 2 * strokePadding;
@@ -92,12 +92,19 @@
                 let xStep = barWidth;
                 let xCurr = strokePadding;
                 this.bars.forEach(b => {
+                    debugger;
+                    let value = b.value || b;
+                    let barColor = undefined;
+
+                    if (b.fillColor)
+                        barColor = ChartUtils.getSvgColorProperty(b.fillColor, self.gradients);
+
                     bars.push({
                         width: barWidth - 2 * self.padding,
-                        height: Math.abs(b * yFactor),
+                        height: Math.abs(value * yFactor),
                         x: xCurr + self.padding,
-                        y: b > 0 ? h - ((b - yTranslate) * yFactor) + strokePadding : self.zeroHeight,
-                        fillColor: fillColor
+                        y: value > 0 ? h - ((value - yTranslate) * yFactor) + strokePadding : self.zeroHeight,
+                        fillColor: barColor || fillColor
                     });
                     xCurr += xStep;
                 });

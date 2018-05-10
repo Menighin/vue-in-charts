@@ -29,7 +29,7 @@
             width="100"
             height="50"
             :fill-color="['tomato', 'brown']"
-            :bars="[-10, 20, 40, 80, -30, 10, 25]"
+            :bars="[-10, 20, 40, {value: 80, fillColor: ['DeepSkyBlue', 'DodgerBlue']}, -30, 10, 25]"
             :stroke-color="'#000'"
             :padding="0"
         />
