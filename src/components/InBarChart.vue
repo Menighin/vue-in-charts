@@ -32,6 +32,9 @@
 </template>
 
 <script>
+
+    import ChartUtils from '../utils/ChartUtils';
+
     export default {
         props: {
             width:       { type: String,  default:  '250'   },
@@ -54,35 +57,7 @@
         computed: {
             fillColorComp() {
                 let fillColor = this.fillColor;
-
-                if (typeof fillColor === 'string') {
-                    return fillColor;
-                } else if (fillColor.constructor === Array) {
-                    let gradient = { 
-                        x1: fillColor.x1 || '0%',
-                        x2: fillColor.x2 || '0%',
-                        y1: fillColor.y1 || '0%',
-                        y2: fillColor.y2 || '100%',
-                        stops: []
-                    };
-
-                    fillColor.forEach((s, i) => {
-                        gradient.stops.push({
-                            offset: `${i * (100 / (fillColor.length - 1))}%`, 
-                            color: s
-                        });
-                    });
-
-                    let gradientId = `url(#gradient-${this.gradients.length})`;
-
-                    this.gradients.push(gradient);
-
-                    return gradientId;
-                } else if (fillColor.constructor === Object) {
-                    let gradientId = `url(#gradient-${this.gradients.length})`;
-                    this.gradients.push(fillColor);
-                    return gradientId;
-                }
+                return ChartUtils.getSvgColorProperty(fillColor, this.gradients);
             },
             barsComp() {
                 let self = this;
