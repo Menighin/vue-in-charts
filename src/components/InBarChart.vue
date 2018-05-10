@@ -44,6 +44,8 @@
             strokeWidth: { type: Number,  default:  1       },
             strokeColor: { type: String,  default:  '#333'  },
             padding:     { type: Number,  default:  0       },
+            minY:        { type: Number,  default:  null    },
+            maxY:        { type: Number,  default:  null    }
         },
         data() {
             return {
@@ -71,12 +73,12 @@
 
                 // Finding the min and max Y values to calculate the yFactor and zero line position
                 minValue  =              this.bars.reduce((min, b) => (b.value || b) < min || min == null ? (b.value || b) : min, minValue);
-                maxValue  = self.maxY || this.bars.reduce((max, b) => (b.value || b) > max || max == null ? (b.value || b) : max, maxValue);
+                maxValue  = this.maxY || this.bars.reduce((max, b) => (b.value || b) > max || max == null ? (b.value || b) : max, maxValue);
 
                 const h = parseInt(this.height) - 2 * strokePadding;
                 const w = parseInt(this.width) - 2 * strokePadding;
 
-                let yTranslate = this.minY || Math.min(0, minValue);
+                let yTranslate = typeof this.minY === 'undefined' ? Math.min(0, minValue) : this.minY;
 
                 // This is how much 1 unit represents in pixels
                 let yFactor = h / (maxValue - yTranslate);
@@ -92,7 +94,6 @@
                 let xStep = barWidth;
                 let xCurr = strokePadding;
                 this.bars.forEach(b => {
-                    debugger;
                     let value = b.value || b;
                     let barColor = undefined;
 

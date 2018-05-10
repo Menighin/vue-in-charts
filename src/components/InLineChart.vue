@@ -73,7 +73,7 @@
             lines:      { type: Array,   required: true  },
             showPoints: { type: Boolean, default:  true  },
             minY:       { type: Number,  default:  null  },
-            maxY:       { type: Number,  defaukt:  null  }
+            maxY:       { type: Number,  default:  null  }
         },
         data() {
             return {
@@ -125,7 +125,7 @@
                 const w = parseInt(this.width) - 2 * maxRadius;
 
                 // How much translate on the Y axis based on the min parameter or the min value on the series
-                let yTranslate = this.minY || Math.min(0, minValue);
+                let yTranslate = typeof this.minY === 'undefined' ? Math.min(0, minValue) : this.minY;
 
                 // This is how much 1 unit represents in pixels
                 let yFactor = h / (maxValue - yTranslate);
