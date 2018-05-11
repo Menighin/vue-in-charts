@@ -23,7 +23,7 @@
                         :width="b.width"
                         :stroke="strokeColor"
                         :stroke-width="strokeWidth"
-                        @mousemove="showTooltip(b)"
+                        @mousemove="drawTooltip(b)"
                         @mouseout="isShowingTooltip = false"
                     />
                 </g>
@@ -56,7 +56,8 @@
             strokeColor: { type: String,  default:  '#333'  },
             padding:     { type: Number,  default:  0       },
             minY:        { type: Number,  default:  null    },
-            maxY:        { type: Number,  default:  null    }
+            maxY:        { type: Number,  default:  null    },
+            showTooltip: { type: Boolean, default:  true    }
         },
         data() {
             return {
@@ -71,8 +72,8 @@
             }
         },
         methods: {
-            showTooltip(bar) {
-                if (!this.isShowingTooltip) {
+            drawTooltip(bar) {
+                if (!this.isShowingTooltip && this.showTooltip) {
                     this.isShowingTooltip = true;
                     let text = bar.value;
                     let tooltipWidth = text.toString().length * 8 + 6;

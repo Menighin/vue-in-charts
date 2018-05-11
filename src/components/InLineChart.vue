@@ -44,7 +44,7 @@
                             :stroke="l.strokeColor"
                             :stroke-width="l.strokeWidth || 2"
                             class="line-point"
-                            @mousemove="showTooltip(p)"
+                            @mousemove="drawTooltip(p)"
                             @mouseout="isShowingTooltip = false" />
                     </g>
                 </g>
@@ -68,12 +68,13 @@
 
     export default {
         props: {
-            width:      { type: String,  default:  '250' },
-            height:     { type: String,  default:  '100' },
-            lines:      { type: Array,   required: true  },
-            showPoints: { type: Boolean, default:  true  },
-            minY:       { type: Number,  default:  null  },
-            maxY:       { type: Number,  default:  null  }
+            width:       { type: String,  default:  '250' },
+            height:      { type: String,  default:  '100' },
+            lines:       { type: Array,   required: true  },
+            showPoints:  { type: Boolean, default:  true  },
+            minY:        { type: Number,  default:  null  },
+            maxY:        { type: Number,  default:  null  },
+            showTooltip: { type: Boolean, default:  true  }
         },
         data() {
             return {
@@ -88,8 +89,8 @@
             }
         },
         methods: {
-            showTooltip(point) {
-                if (!this.isShowingTooltip) {
+            drawTooltip(point) {
+                if (!this.isShowingTooltip && this.showTooltip) {
                     this.isShowingTooltip = true;
                     let text = point.value;
                     let width = text.toString().length * 8 + 6
