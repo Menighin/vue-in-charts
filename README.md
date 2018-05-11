@@ -65,6 +65,14 @@ Use it on your template. Below you can find the options for each chart.
 | | `strokeColor` | String | `true` |      | A color string fpr the line color. |
 | | `fillColor` | String | `false` |      | A color string representing the color of the area below the line. |
 | | `fillColor` | Array | `false` |      | An array of color strings representing the gradient of the area below the line. |
+| | `fill-color`| Object | `false`   |  | An object that defines the gradient for the fill color. The properties are listed as follow. |
+| | `.x1` | String | true |  | The x1 coordinate for the SVG direction. |
+| | `.x2` | String | true |  | The x2 coordinate for the SVG direction. |
+| | `.y1` | String | true |  | The y1 coordinate for the SVG direction. |
+| | `.y2` | String | true |  | The y2 coordinate for the SVG direction. |
+| | `.stops` | Array (of stop) | true |  | An array of stops.  |
+| | `.stop.offset` | String | true |  | Percentage of the gradient.  |
+| | `.stop.color` | String | true |  | Color of the stop.  |
 
 ### Bar Chart (InBarChart)
 
