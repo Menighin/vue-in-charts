@@ -36,5 +36,4 @@ export default class ChartUtils {
             return gradientId;
         }
     }
-
 }
