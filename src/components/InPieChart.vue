@@ -8,7 +8,13 @@
             :height="diameter"> 
 
             <g class="in-pie" :transform="`rotate(${parseInt(rotate)})`">
-                <path v-for="(s, i) in slices" :d="s.path" :fill="s.color" class="pie-slice" :key="`slice-${i}`" @mousemove="trackTooltip($event, s)" @mouseout="hideTooltip" />
+                <path v-for="(s, i) in slices" 
+                    :d="s.path" 
+                    :fill="s.color" 
+                    class="pie-slice" 
+                    :key="`slice-${i}`" 
+                    @mousemove="trackTooltip($event, s)" 
+                    @mouseout="hideTooltip" />
             </g>
 
             <svg :x="-tooltipX" :y="tooltipY" class="tooltip" ref="tooltip" :style="`visibility: ${showTooltip}`">

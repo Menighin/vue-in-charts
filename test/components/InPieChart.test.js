@@ -29,16 +29,12 @@ describe('InPieChart', () => {
     });
 
     it('renders 4 slices', () => {
-        let template = wrapper.html();
+        expect(wrapper.findAll('.pie-slice').length).toBe(4);
+    });
 
-        let pieSliceCount = 0;
-
-        while (template.indexOf('pie-slice') !== -1) {
-            pieSliceCount++;
-            template = template.slice(template.indexOf('pie-slice') + 1);
-        }
-
-        expect(pieSliceCount).toBe(4);
-
+    it('draws tooltip', () => {
+        expect(wrapper.find('.tooltip').isVisible()).toBe(false);
+        wrapper.find('.pie-slice').trigger('mousemove');
+        // expect(wrapper.find('.tooltip').isVisible()).toBe(true);
     });
 });
