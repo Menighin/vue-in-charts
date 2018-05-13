@@ -88,4 +88,10 @@ describe('InLineChart', () => {
         expect(wrapper.props().lines[0].data[0]).toBe(1);
     });
 
+    it('draws tooltip', () => {
+        expect(wrapper.find('.tooltip').isVisible()).toBe(false);
+        wrapper.find('.line-point').trigger('mousemove');
+        expect(wrapper.find('.tooltip').isVisible()).toBe(true);
+    });
+
 });
