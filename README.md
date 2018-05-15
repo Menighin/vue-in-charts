@@ -33,6 +33,9 @@ Use it on your template. Below you can find the options for each chart.
     :diameter="'100'" />
 ```
 
+## Example
+Check a working fiddle: https://jsfiddle.net/menighin/fvqb90uf/
+
 ## Properties
 
 ### Pie Chart (InPieChart)
