@@ -1,5 +1,9 @@
-import InlinePieChart from './components/InlinePieChart.vue';
+import InPieChart from './components/InPieChart.vue';
+import InLineChart from './components/InLineChart.vue';
+import InBarChart from './components/InBarChart.vue';
 
 export {
-    InlinePieChart
+    InPieChart,
+    InLineChart,
+    InBarChart
 }
